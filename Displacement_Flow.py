@@ -168,8 +168,71 @@ def Argentina():
 def Elsewhere():
     print("9 displaced Elsewhere")
 
+@task
+def Europe():
+    print("150 total Europe")
 
+@task
+def Neighbors():
+    print("Many in Neighboring countries")
+
+@task
+def Total():
+    print("20500 total Population")
 
 with Flow("Displacement Diagram 2014") as Displacement_Diagram:
-    population = 20500
-    
+    total = Total()
+
+    Internal(upstream_tasks=[total])
+
+    turkey = Turkey(upstream_tasks=[total])
+    lebanon = Lebanon(upstream_tasks=[total])
+    jordan = Jordan(upstream_tasks=[total])
+    iraq = Iraq(upstream_tasks=[total])
+    egypt = Egypt(upstream_tasks=[total])
+    other_me_na = OtherME_NA(upstream_tasks=[total])
+
+    Neighbors(upstream_tasks=[turkey, lebanon, jordan, iraq])
+
+    germany = Germany(upstream_tasks=[turkey])
+    sweden = Sweden(upstream_tasks=[turkey])
+    armenia = Armenia(upstream_tasks=[turkey])
+    netherlands = Netherlands(upstream_tasks=[turkey])
+    bulgaria = Bulgaria(upstream_tasks=[turkey])
+    denmark = Denmark(upstream_tasks=[total, turkey])
+    switzerland = Switzerland(upstream_tasks=[lebanon])
+    britain = Britain(upstream_tasks=[lebanon])
+    greece = Greece(upstream_tasks=[lebanon])
+    france = France(upstream_tasks=[lebanon])
+    austria = Austria(upstream_tasks=[lebanon])
+    belgium = Belgium(upstream_tasks=[lebanon])
+    norway = Norway(upstream_tasks=[total, jordan])
+    russia = Russia(upstream_tasks=[jordan])
+    cyprus = Cyprus(upstream_tasks=[jordan])
+
+    spain = Spain(upstream_tasks=[jordan])
+    romania = Romania(upstream_tasks=[jordan])
+    italy = Italy(upstream_tasks=[total, iraq])
+    malta = Malta(upstream_tasks=[iraq])
+    georgia = Georgia(upstream_tasks=[iraq])
+    finland = Finland(upstream_tasks=[total])
+
+    ukraine = Ukraine(upstream_tasks=[egypt])
+
+    hungary = Hungary(upstream_tasks=[other_me_na])
+    poland = Poland(upstream_tasks=[other_me_na])
+    czechRepublic = CzechRepublic(upstream_tasks=[other_me_na])
+    moldova = Moldova(upstream_tasks=[other_me_na])
+    ireland = Ireland(upstream_tasks=[other_me_na])
+
+    america = America(upstream_tasks=[lebanon, britain, greece])
+    brazil = Brazil(upstream_tasks=[lebanon, france])
+    canada = Canada(upstream_tasks=[lebanon, austria])
+    southKorea = SouthKorea(upstream_tasks=[lebanon, belgium])
+    malaysia = Malaysia(upstream_tasks=[total, norway])
+    australia = Australia(upstream_tasks=[jordan, russia])
+    argentina = Argentina(upstream_tasks=[jordan, cyprus])
+
+    Elsewhere(upstream_tasks=[turkey, lebanon, jordan, iraq, egypt, other_me_na, germany, sweden, armenia, netherlands, bulgaria, denmark, switzerland, britain, greece, france, austria, belgium, norway, russia, cyprus, spain, romania, italy, malta, georgia, finland, ukraine, hungary, poland, czechRepublic, moldova, ireland, america, brazil, canada, southKorea, malaysia, australia, argentina])
+
+    Europe(upstream_tasks=[germany, sweden, armenia, netherlands, bulgaria, denmark, switzerland, britain, greece, france, austria, belgium, norway, russia, cyprus, spain, romania, italy, malta, georgia, finland, ukraine, hungary, poland, czechRepublic, moldova, ireland])
